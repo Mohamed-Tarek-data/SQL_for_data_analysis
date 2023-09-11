@@ -1,0 +1,52 @@
+/*question1:
+how many albums for artists who made more than 3 albums*/
+
+SELECT n.Name,
+       count(*) AS albums_number
+FROM Artist n
+JOIN Album a ON n.ArtistId=a.ArtistId
+GROUP BY 1
+HAVING albums_number>=4
+ORDER BY 2 DESC
+
+/*_________________________________________________
+question 2:
+what are the best ten selling countries?*/
+
+SELECT c.Country,
+       sum(i.total)AS total_amt
+FROM Customer c
+JOIN Invoice i ON c.CustomerId=i.CustomerId
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 10
+
+/*_________________________________________________
+question 3
+the best ten sold genres*/
+
+SELECT g.Name,
+       count(*)AS number
+FROM Genre g
+JOIN Track t ON g.GenreId=t.GenreId
+JOIN InvoiceLine i ON t.TrackId=i.TrackId
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 10
+
+
+/*_________________________________________________________
+question 4
+the top 10 composers choosen in lists*/
+
+
+SELECT t.Composer,
+       count(*) AS lists_number
+FROM Track t
+JOIN PlaylistTrack p ON t.TrackId=p.TrackId
+JOIN Playlist l ON p.PlaylistId=l.PlaylistId
+WHERE t.Composer IS NOT NULL
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 10
+ 
